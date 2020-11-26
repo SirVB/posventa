@@ -34,10 +34,10 @@ class ControladorVentaBoleta{
 
 			   	$respuesta = ModeloVentaBoleta::mdlIngresarVentaBoleta($tabla, $datos);
 
-			   	if($respuesta == "error"){
+			   	if($respuesta == "ok"){
 
                     echo'<script>
-                        console.log("'.$datos["pagado"].','.$datos["pendiente"].','.$datos["iva"].', ");
+                    
 					swal({
 						  type: "success",
 						  title: "La Venta con Boleta ha sido guardada correctamente",

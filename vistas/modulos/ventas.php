@@ -111,27 +111,29 @@ if($xml){
          
         <thead>
          
-         <tr>
+        <tr>
            
-         
-           <th>Código</th>
-           <th>Cliente</th>
+           <th>Folio</th>
+           <th>Emision</th>
+
            <th>Vendedor</th>
-           <th>Forma de pago</th>
-           <th>Descuento</th>
+           <th>Unidad de Negocio</th>
+           <th>Bodega</th>
+           <th>Plazo de Pago</th>
+           <th>Medio de Pago</th>
+           <th>Cliente</th>
+           <th>Observacion</th>
+           <th>Total</th>
            <th>Pagado</th>
            <th>Pendiente</th>
-           <th>Total</th> 
-           <th>Fecha</th>
            <th>Acciones</th>
-
          </tr> 
 
         </thead>
 
         <tbody>
-
-        <?php
+                
+        <?php /*
 
           if(isset($_GET["fechaInicial"])){
 
@@ -228,6 +230,121 @@ if($xml){
                 </tr>';
             }
 
+        */?>
+        
+        <?php
+
+          $item = null;
+          $valor = null;
+
+          $ventas = ControladorVentas::ctrMostrarVentas($item, $valor);
+          $negocios = ControladorNegocios::ctrMostrarNegocios($item, $valor);
+          $bodegas = ControladorBodegas::ctrMostrarBodegas($item, $valor);
+          $clientes = ControladorClientes::ctrMostrarClientes($item, $valor);
+          $plazos = ControladorPlazos::ctrMostrarPlazos($item,$valor);
+          $medios = ControladorMediosPago::ctrMostrarMedios($item,$valor);
+          $plantel = ControladorPlantel::ctrMostrarPlantel($item, $valor);
+
+            foreach ($ventas as $key => $value) {
+              for($i = 0; $i < count($negocios); ++$i){
+                if ($negocios[$i]["id"] == $value["id_unidad_negocio"]) {
+                  $negocio = $negocios[$i]["unidad_negocio"];
+                }
+              }
+              for($i = 0; $i < count($bodegas); ++$i){
+                if ($bodegas[$i]["id"] == $value["id_bodega"]) {
+                  $bodega = $bodegas[$i]["nombre"];
+                }
+              }
+              for($i = 0; $i < count($clientes); ++$i){
+                if ($clientes[$i]["id"] == $value["id_cliente"]) {
+                  $cliente = $clientes[$i]["nombre"];
+                }
+              }
+              for($i = 0; $i < count($plazos); ++$i){
+                if ($plazos[$i]["id"] == $value["id_plazo_pago"]) {
+                  $plazo = $plazos[$i]["nombre"];
+                }
+              }
+              for($i = 0; $i < count($medios); ++$i){
+                if ($medios[$i]["id"] == $value["id_medio_pago"]) {
+                  $medio = $medios[$i]["medio_pago"];
+                }
+                
+                }
+                        for($i = 0; $i < count($plantel); ++$i){
+                    if ($plantel[$i]["id"] == $value["id_vendedor"]) {
+                      $vendedor = $plantel[$i]["nombre"];
+                    }
+                }
+            
+
+            echo '<tr>
+
+
+                    <td>'.$value["codigo"].'</td>
+
+                    <td>'.$value["fecha_emision"].'</td>
+
+                    <td>'.$vendedor.'</td>
+
+                    <td>'.$negocio.'</td>
+
+                    <td>'.$bodega.'</td>      
+
+                    <td>'.$plazo.'</td>
+
+                    <td>'.$medio.'</td>
+
+                    <td>'.$cliente.'</td>
+
+                    <td>'.$value["observacion"].'</td>
+      
+                    <td>$ '.$value["total_final"].'</td>
+                    <td>$ '.$value["pagado"].'</td>
+                    <td>$ '.$value["pendiente"].'</td>
+
+                    <td>
+
+                    <div class="btn-group">
+
+
+
+                      <button disabled class="btn btn-success btnImprimirTicket" codigoVenta="'.$value["codigo"].'">
+
+                      Ticket
+
+                      </button>
+                        
+                      <button disabled class="btn btn-info btnImprimirFactura" codigoVenta="'.$value["codigo"].'">
+
+                      PDF
+
+                      </button>';
+
+                      if($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Vendedor"){
+
+                      
+                      echo '
+                            <button class="btn btn-warning btnEditarCotizacion" idCotizacion="'.$value["id"].'"><i class="fa fa-pencil"></i></button> ';
+
+                      }
+                      if($_SESSION["perfil"] == "Administrador"){
+                     echo' <button class="btn btn-danger btnEliminarCotizacion" idCotizacion="'.$value["id"].'"><i class="fa fa-times"></i></button>';
+
+
+                    }
+
+                    echo '</div>  
+
+                  </td>
+
+
+                  </tr>';
+          
+            }
+
+           
         ?>
                
         </tbody>

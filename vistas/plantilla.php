@@ -186,8 +186,10 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "plantel" ||
          $_GET["ruta"] == "clientes" ||
          $_GET["ruta"] == "venta-factura" ||
+         $_GET["ruta"] == "venta-factura-exenta" ||
          $_GET["ruta"] == "venta-boleta" ||
          $_GET["ruta"] == "cotizacion" ||
+         $_GET["ruta"] == "cotizacion-exenta" ||
          $_GET["ruta"] == "editar-cotizacion" ||
          $_GET["ruta"] == "ventas" ||
          $_GET["ruta"] == "carga-inventario" ||

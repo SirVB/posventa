@@ -415,11 +415,20 @@ if($_SESSION["perfil"] == "Especial"){
                                                                 <div class="d-block bg-primary text-center" style="background-color:#3c8dbc;font-size:15px;">Medios de Pago</div>
                                                                 <div class="form-group">
                                                                 <div class="input-group" style="display:block;">                
-                                                                        <select name="nuevoMedioPago" id="nuevoMedioPago" class="form-control">
+                                                                <select name="nuevoMedioPago" id="nuevoMedioPago" class="form-control">
                                                                             <option value="">Seleccione:</option>
-                                                                                <option value="Debito">Debito</option>
-                                                                                <option value="Credito">Credito</option>
-                                                                                <option value="Efectivo">Efectivo</option>
+                                                                            <?php
+
+                                                                            $item = null;
+                                                                            $valor = null;
+
+                                                                            $medios = ControladorMediosPago::ctrMostrarMedios($item, $valor);
+
+                                                                            foreach ($medios as $key => $value) {
+                                                                            echo '<option  value="'.$value["id"].'">'.$value["medio_pago"].' </option>';
+                                                                            }
+
+                                                                            ?>
                                                                             
                                                                         </select>
                                                                     </div>

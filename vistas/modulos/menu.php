@@ -576,7 +576,7 @@
 					</li>
 					<li>
 
-						<a href="cotizacion">
+						<a href="cotizacion-exenta">
 							
 							<i class="fa fa-circle-o"></i>
 							<span>Cotizacion Exenta</span>
@@ -606,7 +606,7 @@
 				</li>
 				<li>
 
-					<a href="venta-factura">
+					<a href="venta-factura-exenta">
 						
 						<i class="fa fa-circle-o"></i>
 						<span>Venta Factura Exenta</span>

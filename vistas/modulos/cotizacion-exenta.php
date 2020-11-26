@@ -11,7 +11,6 @@ if($_SESSION["perfil"] == "Especial"){
   return;
 
 }
-
 ?>
 
 <div class="content-wrapper">
@@ -20,7 +19,7 @@ if($_SESSION["perfil"] == "Especial"){
     
   <h1 style="color:green;font-weight:bold">
       
-      COTIZACION AFECTA
+      COTIZACION EXENTA
     
     </h1>
 
