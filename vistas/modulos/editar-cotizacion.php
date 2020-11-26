@@ -81,8 +81,8 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group" style="display:block;">
                                                         <input type="hidden" name="idCotizacion" id="idCotizacion" value="<?php echo $cotizacion["id"];?>">                
-                                                        <select class="form-control" id="nuevoCliente" name="nuevoCliente" required readonly>
-                                                            <option selected value="<?php echo $cliente["id"];?>"><?php echo $cliente["nombre"];?></option>
+                                                        <select class="form-control" id="nuevoClienteCotizacion" name="nuevoClienteCotizacion" required readonly>
+                                                            <option selected idLista="<?php echo $cliente["factor_lista"]?>" value="<?php echo $cliente["id"];?>"><?php echo $cliente["nombre"];?></option>
                                                             <optgroup label="---Cambiar Cliente--"></optgroup>
 
                                                             <?php
@@ -111,8 +111,9 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input type="hidden" id="traerId">
+                                                            <input type="hidden" id="traerFactor">
                                                             <span class="input-group-addon"> <i class="fa fa-address-card"></i> RUT</span>                
-                                                            <input type="text" class="form-control" id="traerRut" value="" readonly >
+                                                            <input type="text" class="form-control" id="traerRutEditar" value="" readonly >
                                                         </div>
                                                     </div> 
                                             </div>
@@ -120,7 +121,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                         <span class="input-group-addon">Direccion</span>                
-                                                            <input type="text" class="form-control" id="traerDireccion" value="" readonly>
+                                                            <input type="text" class="form-control" id="traerDireccionEditar" value="" readonly>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -128,7 +129,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">   
                                                             <span class="input-group-addon">Actividad</span>             
-                                                            <input type="text" class="form-control" id="traerActividad" value="" readonly>
+                                                            <input type="text" class="form-control" id="traerActividadEditar" value="" readonly>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -136,7 +137,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">Ejecutivo</span>                
-                                                            <input type="text" class="form-control" id="traerEjecutivo" value="" readonly>
+                                                            <input type="text" class="form-control" id="traerEjecutivoEditar" value="" readonly>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -144,7 +145,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">                
                                                         <span class="input-group-addon">Telefono</span>
-                                                            <input type="text" class="form-control" id="traerTelefono" value="" readonly>
+                                                            <input type="text" class="form-control" id="traerTelefonoEditar" value="" readonly>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -152,7 +153,15 @@ if($_SESSION["perfil"] == "Especial"){
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                         <span class="input-group-addon"> <i class="fa fa-at"></i> Correo</span>                
-                                                            <input type="text" class="form-control" id="traerEmail" value="" readonly>
+                                                            <input type="text" class="form-control" id="traerEmailEditar" value="" readonly>
+                                                        </div>
+                                                    </div> 
+                                            </div>
+                                            <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                        <span class="input-group-addon">Lista Precio</span>                
+                                                            <input type="text" class="form-control" id="traerListaEditar" value="" readonly>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -319,61 +328,63 @@ if($_SESSION["perfil"] == "Especial"){
                                             </div>
                                             
                                         </div>
+
                                         <?php
 
-                                            $listaProducto = json_decode($cotizacion["productos"], true);
+                                                $listaProducto = json_decode($cotizacion["productos"], true);
 
-                                            foreach ($listaProducto as $key => $value) {
-                                                    $subtotal = $value["precio"] * $value["cantidad"];
-                                                    $neto = $subtotal - $value["descuento"];
-                                            echo'
-                                            <div class="row" style="padding:5px 15px">
-                                            <!-- Descripción del producto -->
-                                          <div class="col-xs-2" style="padding-right:0px">
-                                              <div class="input-group">
-                                              <span class="input-group-addon">
-                                                  <button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$value["id"].'"><i class="fa fa-times"></i></button>
-                                              </span>
-                                                  <input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$value["id"].'" name="agregarProducto" value="'.$value["descripcion"].'" readonly required>
-                                              </div>
-                                          </div>
-                                              <!-- Cantidad del producto -->
-                                          <div class="col-xs-1 cantidadProducto" style="padding-right:0px">
-                                              <input type="text" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="'.$value["cantidad"].'"  required>
-                                          </div>
-                                              <!-- Precio Unitario -->
-                                          <div class="col-xs-1 precioUnitario" style="padding-right:0px">
-                                          <input type="text"  class="form-control nuevoPrecioUnitario" style="padding:5px; padding-left:0px"  name="nuevoPrecioUnitario" value="'.$value["precio"].'" required>
-                                          </div>
-                                              <!-- Subtotal Neto -->
-                                          <div class="col-xs-1 subtotalProducto" style="padding-right:0px">
-                                              <input type="text" class="form-control nuevoSubtotalProducto" style="padding:5px" name="nuevoSubtotalProducto" min="0" value="'.$subtotal.'"  readonly required>
-                                          </div>
-                                              <!-- Descuento -->
-                                          <div class="col-xs-1 descuentoProducto" style="padding-right:0px">
-                                              <input type="text" class="form-control nuevoDescuentoProducto" style="padding:5px" name="nuevoDescuentoProducto" min="0" value="'.$value["descuento"].'"  required>
-                                          </div>
-                                              <!-- Precio Total Neto del producto -->
-                                          <div class="col-xs-2 ingresoPrecio" style="padding-right:0px">
-                                              <input   type="text" class="form-control nuevoPrecioProducto" onchange="cambios()" precioReal="'.$value["precio"].'" name="nuevoPrecioProducto" value="'.$neto.'" readonly required>
-                                          </div>
-                                              <!-- IVA del producto -->
-                                          <div class="col-xs-1 ivaProducto" style="padding-right:0px">
-                                              <input type="text" class="form-control nuevoIvaProducto" style="padding:5px" name="nuevoIvaProducto" min="0" value="'.$value["iva"].'"  readonly required>
-                                          </div>
-                                              <!-- OTROS IMPUESTOS del producto -->
-                                          <div class="col-xs-1 " style="padding-right:0px">
-                                              <input type="text" class="form-control nuevoOtrosImpuestosProducto" style="padding:5px" name="nuevoOtrosImpuestosProducto" min="0" value="0"  required>
-                                          </div>
-                                          <div class="col-xs-2 totalProducto" style="padding-right:0px">
-                                              <input type="text" class="form-control nuevoTotalProducto" name="nuevoTotalProducto" min="0" value="'.$value["total"].'" readonly required>
-                                          </div>
-                                        </div>';
-                                                
-                                                
+                                                foreach ($listaProducto as $key => $value) {
+                                                        $subtotal = $value["precio"] * $value["cantidad"];
+                                                        $neto = $subtotal - $value["descuento"];
+                                                echo'
+                                                <div class="row" style="padding:5px 15px">
+                                                <!-- Descripción del producto -->
+                                            <div class="col-xs-2" style="padding-right:0px">
+                                                <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="'.$value["id"].'"><i class="fa fa-times"></i></button>
+                                                </span>
+                                                    <input type="text" class="form-control nuevaDescripcionProducto" idProducto="'.$value["id"].'" name="agregarProducto" value="'.$value["descripcion"].'" readonly required>
+                                                </div>
+                                            </div>
+                                                <!-- Cantidad del producto -->
+                                            <div class="col-xs-1 cantidadProducto" style="padding-right:0px">
+                                                <input type="text" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="'.$value["cantidad"].'"  required>
+                                            </div>
+                                                <!-- Precio Unitario -->
+                                            <div class="col-xs-1 precioUnitario" style="padding-right:0px">
+                                            <input type="text"  class="form-control nuevoPrecioUnitario" style="padding:5px; padding-left:0px"  name="nuevoPrecioUnitario" value="'.$value["precio"].'" required>
+                                            </div>
+                                                <!-- Subtotal Neto -->
+                                            <div class="col-xs-1 subtotalProducto" style="padding-right:0px">
+                                                <input type="text" class="form-control nuevoSubtotalProducto" style="padding:5px" name="nuevoSubtotalProducto" min="0" value="'.$subtotal.'"  readonly required>
+                                            </div>
+                                                <!-- Descuento -->
+                                            <div class="col-xs-1 descuentoProducto" style="padding-right:0px">
+                                                <input type="text" class="form-control nuevoDescuentoProducto" style="padding:5px" name="nuevoDescuentoProducto" min="0" value="'.$value["descuento"].'"  required>
+                                            </div>
+                                                <!-- Precio Total Neto del producto -->
+                                            <div class="col-xs-2 ingresoPrecio" style="padding-right:0px">
+                                                <input   type="text" class="form-control nuevoPrecioProducto" onchange="cambios()" precioReal="'.$value["precio"].'" name="nuevoPrecioProducto" value="'.$neto.'" readonly required>
+                                            </div>
+                                                <!-- IVA del producto -->
+                                            <div class="col-xs-1 ivaProducto" style="padding-right:0px">
+                                                <input type="text" class="form-control nuevoIvaProducto" style="padding:5px" name="nuevoIvaProducto" min="0" value="'.$value["iva"].'"  readonly required>
+                                            </div>
+                                                <!-- OTROS IMPUESTOS del producto -->
+                                            <div class="col-xs-1 " style="padding-right:0px">
+                                                <input type="text" class="form-control nuevoOtrosImpuestosProducto" style="padding:5px" name="nuevoOtrosImpuestosProducto" min="0" value="0"  required>
+                                            </div>
+                                            <div class="col-xs-2 totalProducto" style="padding-right:0px">
+                                                <input type="text" class="form-control nuevoTotalProducto" name="nuevoTotalProducto" min="0" value="'.$value["total"].'" readonly required>
+                                            </div>
+                                            </div>';
+                                                    
+                                                    
                                             }
 
                                         ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -538,7 +549,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                 <div class="box-header with-border"></div>
                                                     <div class="box-body">
                                                         <h4 class="box-title text-center" style="font-weight:bold; font-size:20px;"> Productos para Seleccionar</h4>
-                                                        <table  class="table table-bordered table-striped dt-responsive tablaCompras">
+                                                        <table  class="table table-bordered table-striped dt-responsive tablaCotizacion">
                                                     
                                                         
                                                             <thead>

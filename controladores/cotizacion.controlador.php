@@ -58,6 +58,59 @@ class ControladorCotizacion{
 
 	}
 
+	static public function ctrCrearCotizacionExenta(){
+
+		if(isset($_POST["nuevoCodigo"])){
+
+			$tabla = "cotizaciones_exentas";
+
+			$datos = array("codigo"=>$_POST["nuevoCodigo"],
+						 "id_cliente"=>$_POST["nuevoClienteCotizacion"],
+						 "id_vendedor"=>$_POST["nuevoVendedor"],
+						 "fecha_emision"=>$_POST["nuevaFechaEmision"],
+						 "fecha_vencimiento"=>$_POST["nuevaFechaVencimiento"],
+						 "id_unidad_negocio"=>$_POST["nuevoNegocio"],	
+						 "id_bodega"=>$_POST["nuevaBodega"],
+						 "subtotal"=>$_POST["nuevoSubtotal"],
+						 "descuento"=>$_POST["nuevoTotalDescuento"],
+						 "exento"=>$_POST["nuevoTotalExento"],
+						 "iva"=>$_POST["nuevoTotalIva"],
+						 "total_final"=>$_POST["nuevoTotalFinal"],
+						 "id_medio_pago"=>$_POST["nuevoMedioPago"],
+						 "id_plazo_pago"=>$_POST["nuevoPlazoPago"],
+						 "observacion"=>$_POST["nuevaObservacion"],
+						 "productos"=>$_POST["listaProductos"]);
+
+
+			$respuesta = ModeloCotizacion::mdlIngresarCotizacionExenta($tabla, $datos);
+
+			if($respuesta == "ok"){
+			 
+			 echo'<script>
+			 swal({
+				   type: "success",
+				   title: "La Cotizacion Exenta ha sido guardada correctamente",
+				   showConfirmButton: true,
+				   confirmButtonText: "Cerrar"
+				   }).then(function(result){
+							 if (result.value) {
+
+							 window.location = "cotizaciones";
+
+							 }
+						 })
+
+			 </script>';
+
+		 }
+
+	 
+ }
+
+
+
+	}
+
 
 	static public function ctrEditarCotizacion(){
 		if(isset($_POST["nuevoCodigo"])){
@@ -112,6 +165,15 @@ class ControladorCotizacion{
 	static public function ctrMostrarCotizaciones($item, $valor){
 
 		$tabla = "cotizaciones";
+
+		$respuesta = ModeloCotizacion::mdlMostrarCotizaciones($tabla, $item, $valor);
+
+		return $respuesta;
+	
+	}
+	static public function ctrMostrarCotizacionesExentas($item, $valor){
+
+		$tabla = "cotizaciones_exentas";
 
 		$respuesta = ModeloCotizacion::mdlMostrarCotizaciones($tabla, $item, $valor);
 

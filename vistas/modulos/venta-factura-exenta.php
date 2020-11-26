@@ -219,32 +219,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-6">
-                                                            <div class="d-block" style="font-size:14px;">Tipo DTE</div>
-                                                                <div class="form-group">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon" style="background-color:red; color:white; font-weight:bold">DTE</span>
-                                                                            <select class="form-control input-sm" style="padding-left:5px" id="nuevoDTE" required>
-                                                                                <option value="Elegir Tipo DTE">Seleccionar Tipo DTE</option>
-                                                                                <?php
 
-                                                                                    $item = null;
-                                                                                    $valor = null;
-
-                                                                                    $documentos = ControladorImpuestos::ctrMostrarDocumentos($item, $valor);
-
-                                                                                    foreach ($documentos as $key => $value) {
-                                                                                        if($value["nombre"] == "Factura Exenta" or $value["nombre"] == "Factura Afecta")
-                                                                                    echo '<option   value="'.$value["nombre"].'">'.$value["nombre"].' </option>';
-                                                                                    }
-
-                                                                                ?>
-                                                                                
-                                                            
-                                                                            </select>
-                                                                        </div>
-                                                                </div>
-                                                            </div>
                                                             <div class="col-xs-6">
                                                                 <div class="d-block" style="font-size:14px;">Vendedor Asociado</div>
                                                                 <div class="form-group">
@@ -307,7 +282,7 @@ if($_SESSION["perfil"] == "Especial"){
                         <div class="col-xs-4">
                            <div class="box box-info">
                                 <div class="box-body">
-                                <h4 class="box-title" style="color:#39b616;font-weight:bold; font-size:21px; color:red" id="tipodte">ELEGIR TIPO DTE:</h4>
+                                <h4 class="box-title" style="color:#39b616;font-weight:bold; font-size:21px; color:red" id="tipodte">FACTURA EXENTA</h4>
                                         <div class="row">
                                             <div class="col-xs-5">
                                                  <div class="form-group">
@@ -349,6 +324,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                 
                                             </div>
                                         </div>
+                                    <!--
                                         <div class="row" style="margin-top:5px;">
                                             <div class="col-xs-6">
                                                  <div class="form-group">
@@ -465,6 +441,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                 <button class="btn btn-primary">Ver Todo</button>
                                             </div>
                                         </div>
+                                    -->
                                 </div>
                            </div>
                         </div>

@@ -263,6 +263,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/venta-factura.js"></script>
 <script src="vistas/js/venta-boleta.js"></script>
 <script src="vistas/js/cotizacion.js"></script>
+<script src="vistas/js/cotizacion-exenta.js"></script>
 <script src="vistas/js/plantel.js"></script>
 <script src="vistas/js/tipo-productos.js"></script>
 <script src="vistas/js/tipo-clientes.js"></script>

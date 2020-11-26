@@ -1,4 +1,4 @@
-$('.tablaCotizacion').DataTable( {
+$('.tablaCotizacionExenta').DataTable( {
     "ajax": "ajax/datatable-compras.ajax.php",
     "deferRender": true,
 	"retrieve": true,
@@ -38,7 +38,7 @@ $('.tablaCotizacion').DataTable( {
 AGREGANDO PRODUCTOS A LA VENTA DESDE LA TABLA
 =============================================*/
 
-$(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
+$(".tablaCotizacionExenta tbody").on("click", "button.agregarProducto", function(){
 
 	var idProducto = $(this).attr("idProducto");
 
@@ -48,6 +48,7 @@ $(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
 
 	var datos = new FormData();
     datos.append("idProducto", idProducto);
+
      $.ajax({
 
      	url:"ajax/productos.ajax.php",
@@ -58,11 +59,12 @@ $(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
       	processData: false,
       	dataType:"json",
       	success:function(respuesta){
+
       	    var descripcion = respuesta["descripcion"];
 			var precio = respuesta["precio_venta"] * (1 - $("#traerFactor").val()/100);
 			var desc = 0
 			var total_neto = precio - desc;
-			var impuesto = total_neto *0.19;
+			var impuesto = 0
 			var total = Number(precio) + Number(impuesto);
 
 
@@ -140,7 +142,7 @@ $(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
 
 					'<div class="col-xs-1 " style="padding-right:0px">'+
 							
-						'<input type="text" class="form-control nuevoOtrosImpuestosProducto" style="padding:5px" name="nuevoOtrosImpuestosProducto" min="0" value="0"  required>'+
+						'<input type="text" class="form-control nuevoOtrosImpuestosProducto" style="padding:5px" name="nuevoOtrosImpuestosProducto" min="0" value="0" readonly required>'+
 
 					'</div>' +
 
@@ -159,7 +161,7 @@ $(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
 
 	        // SUMAR TOTAL DE PRECIOS
 		
-	        sumarTotalPreciosCotizacion()
+	        sumarTotalPreciosCotizacionExenta()
 
 	        // AGREGAR IMPUESTO
 
@@ -192,7 +194,7 @@ $(".tablaCotizacion tbody").on("click", "button.agregarProducto", function(){
 
 
 function cambios(){
-	sumarTotalPreciosCotizacion();
+	sumarTotalPreciosCotizacionExenta();
 
 	        // AGREGAR IMPUESTO
 
@@ -235,7 +237,7 @@ var idQuitarProducto = [];
 
 localStorage.removeItem("quitarProducto");
 
-$(".formularioCotizacion").on("click", "button.quitarProducto", function(){
+$(".formularioCotizacionExenta").on("click", "button.quitarProducto", function(){
 
 	$(this).parent().parent().parent().parent().remove();
 
@@ -275,7 +277,7 @@ $(".formularioCotizacion").on("click", "button.quitarProducto", function(){
 
 		// SUMAR TOTAL DE PRECIOS
 
-    	sumarTotalPreciosCotizacion()
+    	sumarTotalPreciosCotizacionExenta()
 
     	// AGREGAR IMPUESTO
 	        
@@ -382,7 +384,7 @@ $(".btnAgregarProducto").click(function(){
 
         	 // SUMAR TOTAL DE PRECIOS
 
-    		sumarTotalPreciosCotizacion()
+    		sumarTotalPreciosCotizacionExenta()
 
     		// AGREGAR IMPUESTO
 	        
@@ -403,7 +405,7 @@ $(".btnAgregarProducto").click(function(){
 SELECCIONAR PRODUCTO
 =============================================*/
 
-$(".formularioCotizacion").on("change", "select.nuevaDescripcionProducto", function(){
+$(".formularioCotizacionExenta").on("change", "select.nuevaDescripcionProducto", function(){
 
 	var nombreProducto = $(this).val();
 
@@ -446,7 +448,7 @@ $(".formularioCotizacion").on("change", "select.nuevaDescripcionProducto", funct
 /*=============================================
 MODIFICAR PRECIO UNITARIO
 =============================================*/
-$(".formularioCotizacion").on("change", "input.nuevoPrecioUnitario", function(){
+$(".formularioCotizacionExenta").on("change", "input.nuevoPrecioUnitario", function(){
 
 	var descuento = $(this).parent().parent().children(".descuentoProducto").children(".nuevoDescuentoProducto");
 	var cantidad = $(this).parent().parent().children(".cantidadProducto").children(".nuevaCantidadProducto");
@@ -456,7 +458,7 @@ $(".formularioCotizacion").on("change", "input.nuevoPrecioUnitario", function(){
 	var total = $(this).parent().parent().children(".totalProducto").children(".nuevoTotalProducto");
 	var subtotalFinal = cantidad.val() * $(this).val();
 	var precioFinal = cantidad.val() * $(this).val() - descuento.val();
-	var ivaFinal = precioFinal * 0.19;
+	var ivaFinal = 0
 	var totalFinal = precioFinal + ivaFinal;
 	iva.val(ivaFinal);
 	precio.val(precioFinal);
@@ -467,7 +469,7 @@ $(".formularioCotizacion").on("change", "input.nuevoPrecioUnitario", function(){
 
 
 
-	sumarTotalPreciosCotizacion()
+	sumarTotalPreciosCotizacionExenta()
 
 
 })
@@ -475,7 +477,7 @@ $(".formularioCotizacion").on("change", "input.nuevoPrecioUnitario", function(){
 MODIFICAR LA CANTIDAD
 =============================================*/
 
-$(".formularioCotizacion").on("change", "input.nuevaCantidadProducto", function(){
+$(".formularioCotizacionExenta").on("change", "input.nuevaCantidadProducto", function(){
 	var preciou = $(this).parent().parent().children(".precioUnitario").children(".nuevoPrecioUnitario");
 	var precio = $(this).parent().parent().children(".ingresoPrecio").children(".nuevoPrecioProducto");
 	var descuento = $(this).parent().parent().children(".descuentoProducto").children(".nuevoDescuentoProducto");
@@ -484,7 +486,7 @@ $(".formularioCotizacion").on("change", "input.nuevaCantidadProducto", function(
 	var total = $(this).parent().parent().children(".totalProducto").children(".nuevoTotalProducto");
 	var subtotalFinal = preciou.val() * $(this).val();
 	var precioFinal = $(this).val() * preciou.val() - descuento.val();
-	var ivaFinal = precioFinal * 0.19;
+	var ivaFinal = 0
 	var totalFinal = precioFinal + ivaFinal;
 	iva.val(ivaFinal);
 	precio.val(precioFinal);
@@ -509,7 +511,7 @@ $(".formularioCotizacion").on("change", "input.nuevaCantidadProducto", function(
 
 		precio.val(precioFinal);
 
-		sumarTotalPreciosCotizacion();
+		sumarTotalPreciosCotizacionExenta();
 
 		swal({
 	      title: "La cantidad supera el Stock",
@@ -524,7 +526,7 @@ $(".formularioCotizacion").on("change", "input.nuevaCantidadProducto", function(
 
 	// SUMAR TOTAL DE PRECIOS
 
-	sumarTotalPreciosCotizacion()
+	sumarTotalPreciosCotizacionExenta()
 
 
 	// AGREGAR IMPUESTO
@@ -540,20 +542,20 @@ $(".formularioCotizacion").on("change", "input.nuevaCantidadProducto", function(
 MODIFICAR DESCUENTO
 =============================================*/
 
-$(".formularioCotizacion").on("change", "input.nuevoDescuentoProducto", function(){
+$(".formularioCotizacionExenta").on("change", "input.nuevoDescuentoProducto", function(){
 	var preciou = $(this).parent().parent().children(".precioUnitario").children(".nuevoPrecioUnitario");
 	var precio = $(this).parent().parent().children(".ingresoPrecio").children(".nuevoPrecioProducto");
 	var cantidad = $(this).parent().parent().children(".cantidadProducto").children(".nuevaCantidadProducto");
 	var iva = $(this).parent().parent().children(".ivaProducto").children(".nuevoIvaProducto");
 	var total = $(this).parent().parent().children(".totalProducto").children(".nuevoTotalProducto");
 	var precioFinal = cantidad.val() * preciou.val() - $(this).val();
-	var ivaFinal = precioFinal * 0.19;
+	var ivaFinal = 0
 	var totalFinal = precioFinal + ivaFinal;
 	iva.val(ivaFinal);
 	precio.val(precioFinal);
 	total.val(totalFinal);
 
-	sumarTotalPreciosCotizacion()
+	sumarTotalPreciosCotizacionExenta()
 	listarProductos()
 
 
@@ -562,7 +564,7 @@ $(".formularioCotizacion").on("change", "input.nuevoDescuentoProducto", function
 SUMAR TODOS LOS PRECIOS
 =============================================*/
 
-function sumarTotalPreciosCotizacion(){
+function sumarTotalPreciosCotizacionExenta(){
 
 	var precioItem = $(".nuevoPrecioProducto");
 	
@@ -583,9 +585,9 @@ function sumarTotalPreciosCotizacion(){
 
 	var sumaTotalPrecio = arraySumaPrecio.reduce(sumaArrayPrecios);
 	
-	$("#nuevoTotalNeto").val(sumaTotalPrecio);
-	$("#nuevoTotalNeto").attr("total",sumaTotalPrecio);
-	$("#nuevoTotalNeto").number(true, 0);
+	$("#nuevoTotalExento").val(sumaTotalPrecio);
+	$("#nuevoTotalExento").attr("total",sumaTotalPrecio);
+	$("#nuevoTotalExento").number(true, 0);
 	$("#nuevoTotalDescuento").number(true, 0);
 	$("#nuevoTotalIva").number(true, 0);
 	$("#nuevoSubtotal").number(true, 0);
@@ -593,7 +595,7 @@ function sumarTotalPreciosCotizacion(){
 	sumarSubtotal()
 	sumarDescuentos()
 	sumarIva()
-	sumarTotalesCotizacion()
+	sumarTotalesCotizacionExenta()
 
 }
 
@@ -663,7 +665,7 @@ function restar2(){
 
 
 }*/
-function sumarTotalesCotizacion(){
+function sumarTotalesCotizacionExenta(){
 	var totalItem = $(".nuevoTotalProducto");
 	var arraySumaTotales = [];
 	for(var i=0; i<totalItem.length; i++){
@@ -766,58 +768,46 @@ function costoExtra(){
 }
 
 
-// EDITAR COTIZACION
+
 $(document).ready(function(){
 
-		var idCliente = $("#nuevoClienteCotizacion").val();
-		console.log("idCliente"+ idCliente);
-		var idLista = $('option:selected', $("#nuevoClienteCotizacion")).attr('idLista');
-		console.log("idLista"+ idLista);
+
+		var idCliente = $("#nuevoCliente").val();
+		console.log(idCliente);
 		var datos = new FormData();
 		datos.append("idCliente", idCliente);
-		var datos2 = new FormData();
-		datos2.append("idLista", idLista);
-		
-		
+	
 		$.ajax({
-			url: "ajax/listas.ajax.php",
+			url: "ajax/clientes.ajax.php",
 			method: "POST",
-			  data: datos2,
+			  data: datos,
 			  cache: false,
 			 contentType: false,
 			 processData: false,
 			 dataType:"json",
 			 success: function(respuesta){
-				var factor = respuesta["factor"];
-				var nombre_lista = respuesta["nombre_lista"];  
-				var factor_lista = nombre_lista + ' - ' + factor + ' %';
-				$.ajax({
-					url: "ajax/clientes.ajax.php",
-					method: "POST",
-					data: datos,
-					cache: false,
-					contentType: false,
-					processData: false,
-					dataType:"json",
-					success: function(respuesta){
-						console.log("respuesta", respuesta);           
-						$("#traerIdEditar").val(respuesta["id"]);
-						$("#traerRutEditar").val(respuesta["rut"]);
-						$("#traerDireccionEditar").val(respuesta["direccion"]);
-						$("#traerTelefonoEditar").val(respuesta["telefono"]);
-						$("#traerEmailEditar").val(respuesta["email"]);
-						$("#traerActividadEditar").val(respuesta["actividad"]);
-						$("#traerEjecutivoEditar").val(respuesta["ejecutivo"]);
-						$("#traerFactor").val(factor);
-						$("#traerListaEditar").val(factor_lista);
-						sumarTotalPreciosCotizacion();
-						listarProductos();
-					}
-			
-				});
+				console.log("respuesta", respuesta);           
+				$("#traerId").val(respuesta["id"]);
+				$("#traerRut").val(respuesta["rut"]);
+				$("#traerDireccion").val(respuesta["direccion"]);
+				$("#traerTelefono").val(respuesta["telefono"]);
+				$("#traerEmail").val(respuesta["email"]);
+				$("#traerActividad").val(respuesta["actividad"]);
+				$("#traerEjecutivo").val(respuesta["ejecutivo"]);
+				$("#traerFactor").val(respuesta["factor_lista"]);
+
+				sumarTotalPreciosCotizacionExenta();
+				listarProductos();
 			 }
-			});
 	
+		});
+	
+	
+
+
+	
+
+	$("#seleccionarCliente").select2();
 	
 	});
 

@@ -36,7 +36,7 @@ if($_SESSION["perfil"] == "Especial"){
     <section class="content">
     <div class="box">
             <div class="box-body">
-                <form role="form" method="post" class="formularioCotizacion">
+                <form role="form" method="post" class="formularioCotizacionExenta">
                 <!--=====================================
                 FECHAS Y TIPO DE DOCUMENTO
                     ======================================-->
@@ -250,7 +250,7 @@ if($_SESSION["perfil"] == "Especial"){
                         <div class="col-xs-3">
                            <div class="box box-info">
                                 <div class="box-body">
-                                    <h4 class="box-title" style="color:#39b616;font-weight:bold; font-size:21px;color:red;"> COTIZACION</h4>
+                                    <h4 class="box-title" style="color:#39b616;font-weight:bold; font-size:21px;color:red;"> COTIZACION EXENTA</h4>
                                         <div class="row" style="margin-top:5px;">
                                             <div class="col-xs-7">
                                                  <div class="form-group">
@@ -293,7 +293,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                 <h5 style="background-color:#3c8dbc; color:white; border-radius:5px; padding: 5px 0px;">Descuento</h4>
                                             </div>
                                             <div class="col-xs-2 text-center" style="padding-right:0px">
-                                                <h5 style="background-color:#3c8dbc; color:white; border-radius:5px; padding: 5px 0px;">Total Neto</h4>
+                                                <h5 style="background-color:#3c8dbc; color:white; border-radius:5px; padding: 5px 0px;">Exento</h4>
                                             </div>
                                             <div class="col-xs-1 text-center" style="padding-right:0px">
                                                 <h5 style="background-color:#3c8dbc; color:white; border-radius:5px; padding: 5px 0px;">IVA</h4>
@@ -334,19 +334,10 @@ if($_SESSION["perfil"] == "Especial"){
                                                                     </div> 
                                                             </div>
                                                             <div class="col-xs-7">
-                                                                    
-                                                                    <div class="form-group">
-                                                                        <div class="input-group"> 
-                                                                            <span class="input-group-addon" style="padding:0px 3px">Total Neto</span>               
-                                                                            <input style="font-size:16px;" type="text" class="form-control" id="nuevoTotalNeto" name="nuevoTotalNeto" total="" value="" readonly>
-                                                                        </div>
-                                                                    </div> 
-                                                            </div>
-                                                            <div class="col-xs-7">
                                                                     <div class="form-group">
                                                                         <div class="input-group">                
                                                                             <span class="input-group-addon">Exento</span>
-                                                                            <input style="font-size:18px;" type="text" class="form-control"  readonly>
+                                                                            <input style="font-size:18px;" type="text" class="form-control" id="nuevoTotalExento" name="nuevoTotalExento"  readonly>
                                                                         </div>
                                                                     </div> 
                                                             </div>
@@ -364,7 +355,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                                     <div class="form-group">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon" style="padding:0px">Otros Imp.</span>                
-                                                                            <input style="font-size:18px;" type="text" class="form-control" value="" readonly>
+                                                                            <input style="font-size:18px;" type="text" class="form-control" value="0" readonly >
                                                                         </div>
                                                                     </div> 
                                                             </div>
@@ -469,7 +460,7 @@ if($_SESSION["perfil"] == "Especial"){
                                                 <div class="box-header with-border"></div>
                                                     <div class="box-body">
                                                         <h4 class="box-title text-center" style="font-weight:bold; font-size:20px;"> Productos para Seleccionar</h4>
-                                                        <table  class="table table-bordered table-striped dt-responsive tablaCotizacion">
+                                                        <table  class="table table-bordered table-striped dt-responsive tablaCotizacionExenta">
                                                     
                                                         
                                                             <thead>
@@ -494,12 +485,12 @@ if($_SESSION["perfil"] == "Especial"){
                                         
                                     
                    <button type="button" class="btn btn-default">Salir</button>
-                    <button type="submit" class="btn btn-primary">Guardar Cotizacion</button>                 
+                    <button type="submit" class="btn btn-primary">Guardar Cotizacion Exenta</button>                 
                 </form>
                     <?php
 
-                        $agregarCotizacion = new ControladorCotizacion();
-                        $agregarCotizacion -> ctrCrearCotizacion();
+                        $agregarCotizacionExenta = new ControladorCotizacion();
+                        $agregarCotizacionExenta -> ctrCrearCotizacionExenta();
 
                     ?>
             </div>
